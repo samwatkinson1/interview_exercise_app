@@ -91,3 +91,34 @@ export interface ChatConversationDto {
   pinnedMessages?: string[];
   tags?: Tag[];
 }
+
+export interface ChatConversationMessageDto {
+  conversationId: string;
+  messages: [{ message: string; senderId: string }];
+}
+
+export interface GetMessageDto {
+  conversationId: string;
+  offsetId?: string;
+  limit: number;
+  tag?: string;
+}
+
+export interface UnreadMessageDto {
+  id: string;
+  unreadMessageCount: number;
+}
+
+export interface MessageDto {
+  conversationId: string;
+  text: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  text: string;
+  created: Date;
+  resolved: boolean;
+  sender: { id: string };
+  deleted: boolean;
+}
