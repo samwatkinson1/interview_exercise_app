@@ -1,50 +1,33 @@
-# React + TypeScript + Vite
+# Interview Exercise App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![](img.png)
 
-Currently, two official plugins are available:
+## Running locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+In order to run locally you'll need the `interview_exercise` backend repo cloned as well as this one.
 
-## Expanding the ESLint configuration
+- Ensure you have the required dependencies installed from the `interview_exercise` repo
+- Start the `interview_exercise` backend, `docker compose up -d` & `npm run start:dev`
+- In the `interview_exercise` repo generate a JWT token for a dummy user,
+  `npm run token --userId 66e70bdf04f6c70771f4a2df --universityId 66e70bde2e3b1e0771a83877`
+- In the `interview_exercise` repo mock the user service, `npm run mock-user-server --userId 66e70bdf04f6c70771f4a2df`
+- In this repo create a `.env.local` file and complete the following fields
+    - `API_KEY` - This is provided in the `interview_exercise` repo
+    - `JWT` - This was generated previously with the `token` command
+    - `UNIVERSITY_ID` - This is listed above
+    - `USER_ID` - This is listed above
+- In this repo run `npm start dev` and navigate to [http://localhost:8080](http://localhost:8080)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The app should now be running!
 
-- Configure the top-level `parserOptions` property like this:
+## Testing
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Unit tests can be added using `jest` and `react-testing-library`, any files matching `*.test.*` or `*.spec.*` will
+automatically be picked up by `jest`.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Interacting with the API
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+We use `react-query` here to make state manangement and network requests efficient and easy. Hooks isolate query logic
+in separate files making requests reusable and ensuring single sources of truth. `react-query` also works with `graphql`
+using `graphql-request`, documents are created that match the expected schema from the API and can be utilised to make
+requests as expected.
